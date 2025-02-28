@@ -24,7 +24,7 @@ namespace ArinaMazitova422_TrackerPet
         public MainWindow()
         {
             InitializeComponent();
-            MainFrame.Navigate(new PetsViewPage());
+            MainFrame.Navigate(new AuthPage());
         }
     }
 }

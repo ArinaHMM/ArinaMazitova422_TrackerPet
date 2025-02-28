@@ -25,9 +25,25 @@ namespace ArinaMazitova422_TrackerPet.Pages
             InitializeComponent();
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("dfs");
+            string username = LoginBox.Text;
+
+
+            {
+                var user = App.db.User.FirstOrDefault(u => u.Password == username);
+                if (user != null)
+                {
+                    MessageBox.Show($"Добро пожаловать, {user.Name}!");
+
+                    NavigationService.Navigate(new PetsViewPage(user));
+                }
+                else
+                {
+                    MessageBox.Show("Неверное имя или пароль!");
+                }
+            }
         }
+
     }
 }

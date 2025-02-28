@@ -1,6 +1,7 @@
 ﻿using ArinaMazitova422_TrackerPet.Databases;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,71 +10,129 @@ namespace ArinaMazitova422_TrackerPet.Pages
 {
     public partial class PetsViewPage : Page
     {
-        private List<Posts> _posts; // Список постов
+        private ObservableCollection<Posts> _posts = new ObservableCollection<Posts>();
+        private User _currentUser; // Текущий пользователь
 
-        public PetsViewPage()
+        public PetsViewPage(User user) // Добавляем конструктор с пользователем
         {
             InitializeComponent();
-            LoadPosts(); // Загружаем данные при инициализации страницы
+            _currentUser = user;
+            LoadPosts();
         }
 
-        // Метод для загрузки данных
         private void LoadPosts()
         {
-           
-            
-                _posts = App.db.Posts.ToList(); // Получаем все посты из базы данных
-            
-
-            PetsWP.Children.Clear();
-
-            foreach (var post in _posts)
+            try
             {
-                var petCard = new PetCard(post); 
-                PetsWP.Children.Add(petCard); 
+                if (_currentUser.IdRole == 1) // Хозяин (Котенок Ра)
+                {
+                    _posts = new ObservableCollection<Posts>(App.db.Posts.Where(p => p.idPet == 1).ToList());
+                }
+                else if (_currentUser.IdRole == 2) // Хозяйка (Собачка Нуби)
+                {
+                    _posts = new ObservableCollection<Posts>(App.db.Posts.Where(p => p.idPet == 2).ToList());
+                }
+                else
+                {
+                    _posts = new ObservableCollection<Posts>();
+                }
+
+                PetsListView.ItemsSource = _posts; // Привязываем список к ListView
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка загрузки данных: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        // Обработчик события для поиска
+
         private void SearchTb_TextChanged(object sender, TextChangedEventArgs e)
         {
             string searchText = SearchTb.Text.ToLower();
 
-            // Фильтруем посты по тексту поиска
             var filteredPosts = _posts
                 .Where(p => p.Description.ToLower().Contains(searchText))
                 .ToList();
 
-            // Очищаем WrapPanel и добавляем отфильтрованные карточки
-            PetsWP.Children.Clear();
-            foreach (var post in filteredPosts)
+            PetsListView.ItemsSource = filteredPosts; // Обновляем список в ListView
+        }
+
+        private void Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Filter.SelectedItem is ComboBoxItem selectedItem)
             {
-                var petCard = new PetCard(post);
-                PetsWP.Children.Add(petCard);
+                string selectedFilter = selectedItem.Content.ToString();
+
+                if (selectedFilter == "Все")
+                {
+                    PetsListView.ItemsSource = _posts;
+                }
+                else
+                {
+                    // Находим id для выбранного состояния из PostRate
+                    var selectedRate = App.db.PostRate.FirstOrDefault(r => r.Name == selectedFilter);
+                    if (selectedRate != null)
+                    {
+                        var filteredPosts = _posts.Where(p => p.idRate == selectedRate.id).ToList();
+                        PetsListView.ItemsSource = filteredPosts;
+                    }
+                    else
+                    {
+                        PetsListView.ItemsSource = new List<Posts>(); // Если нет совпадений
+                    }
+                }
             }
         }
 
-        // Обработчик события для фильтрации
-        private void Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private void PetsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string selectedFilter = (Filter.SelectedItem as ComboBoxItem)?.Content.ToString();
+            
+        }
 
-            // Фильтруем посты в зависимости от выбранного фильтра
-            var filteredPosts = _posts;
-            if (selectedFilter != "Все")
-            {
-                filteredPosts = _posts
-                    .Where(p => p.Description.Contains(selectedFilter))
-                    .ToList();
-            }
+        private void AddPostBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new AddPostPage(_currentUser)); // Переход на страницу добавления поста
+        }
 
-            // Очищаем WrapPanel и добавляем отфильтрованные карточки
-            PetsWP.Children.Clear();
-            foreach (var post in filteredPosts)
+        private void EditPostBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (PetsListView.SelectedItem is Posts selectedPost)
             {
-                var petCard = new PetCard(post);
-                PetsWP.Children.Add(petCard);
+                NavigationService.Navigate(new AddPostPage(_currentUser, selectedPost)); // Переход с передачей поста
             }
+            else
+            {
+                MessageBox.Show("Выберите пост для редактирования!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+
+        private void DeletePostBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (PetsListView.SelectedItem is Posts selectedPost)
+            {
+                var result = MessageBox.Show("Вы уверены, что хотите удалить этот пост?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    App.db.Posts.Remove(selectedPost);
+                    App.db.SaveChanges();
+
+                    _posts.Remove(selectedPost); // Удаляем из списка
+                    PetsListView.Items.Refresh(); // Обновляем отображение
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите пост для удаления!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            PetsListView.ItemsSource = _posts;
+            LoadPosts();
         }
     }
 }

@@ -1,40 +1,46 @@
 ﻿using ArinaMazitova422_TrackerPet.Databases;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ArinaMazitova422_TrackerPet.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для PetCard.xaml
-    /// </summary>
     public partial class PetCard : UserControl
     {
+        public string PetName { get; set; }  // Добавляем свойство для имени питомца
+        public string Rate { get; set; }     // Добавляем свойство для характеристики
+
         public Posts Posts { get; }
-        public PetCard(Posts pset )
+
+        public PetCard()
         {
             InitializeComponent();
-            DataContext = pset;
-
-            Posts = pset;
-
-            LoadProductImage();
         }
-        private void LoadProductImage()
+
+        public PetCard(Posts post) : this()
         {
-            if (Posts.Image != null && Posts.Image.Length > 0)
+            Posts = post;
+            LoadData();
+            LoadImage();
+            DataContext = this; // Устанавливаем привязку
+        }
+
+        private void LoadData()
+        {
+            // Получаем имя питомца
+            var pet = App.db.Pet.FirstOrDefault(p => p.id == Posts.idPet);
+            PetName = pet?.Name ?? "Неизвестный питомец";
+
+            // Получаем характеристику (PostRate)
+            var postRate = App.db.PostRate.FirstOrDefault(r => r.id == Posts.idRate);
+            Rate = postRate?.Name ?? "Без характеристики";
+        }
+
+        private void LoadImage()
+        {
+            if (Posts?.Image != null && Posts.Image.Length > 0)
             {
                 using (var ms = new MemoryStream(Posts.Image))
                 {
@@ -48,8 +54,7 @@ namespace ArinaMazitova422_TrackerPet.Pages
             }
             else
             {
-                ImagePet.Source = new BitmapImage(new Uri("C:\\Users\\222113\\source\\repos\\ArinaMazitova422_TrackerPet\\ArinaMazitova422_TrackerPet\\Image\\cats.png"));
-
+                ImagePet.Source = new BitmapImage(new Uri("pack://application:,,,/Image/cats.png"));
             }
         }
     }

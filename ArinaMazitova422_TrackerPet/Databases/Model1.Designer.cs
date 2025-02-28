@@ -1,4 +1,4 @@
-﻿// Создание кода T4 для модели "C:\Users\222113\source\repos\ArinaMazitova422_TrackerPet\ArinaMazitova422_TrackerPet\Databases\Model1.edmx" включено. 
+﻿// Создание кода T4 для модели "C:\Users\mazit\Source\Repos\ArinaMazitova422_TrackerPet\ArinaMazitova422_TrackerPet\Databases\Model1.edmx" включено. 
 // Чтобы включить формирование кода прежних версий, измените значение свойства "Стратегия создания кода" конструктора
 // на "Legacy ObjectContext". Это свойство доступно в окне "Свойства", если модель
 // открыта в конструкторе.

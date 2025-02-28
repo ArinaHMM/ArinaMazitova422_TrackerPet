@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ArinaMazitova422_TrackerPet.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="1050" Loaded="Page_Loaded"
       Title="PetsViewPage">
 
     <Grid>
@@ -26,15 +26,24 @@
                 <ComboBoxItem>Довольный</ComboBoxItem>
                 <ComboBoxItem>Чистый</ComboBoxItem>
                 <ComboBoxItem>Грязный</ComboBoxItem>
-                <ComboBoxItem>Болеющий</ComboBoxItem>
 
             </ComboBox>
-        </StackPanel>
+                <Button Content="Добавить пост" Name="Add" Click="AddPostBtn_Click" Width="150" Height="40" Margin="5"/>
+                <Button Content="Редактировать" Name="edit" Click="EditPostBtn_Click" Width="150" Height="40" Margin="5"/>
+                <Button Content="Удалить" Name="Del" Click="DeletePostBtn_Click" Width="150" Height="40" Margin="5"/>
+            
+                   </StackPanel>
         <StackPanel Grid.Row="1">
             <ScrollViewer>
-                <WrapPanel HorizontalAlignment="Center" Name="PetsWP" >
+                <ListView Name="PetsListView" SelectionChanged="PetsListView_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <local:PetCard />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
-                </WrapPanel>
+
             </ScrollViewer>
         </StackPanel>
     </Grid>
