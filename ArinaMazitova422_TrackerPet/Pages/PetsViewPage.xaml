@@ -44,7 +44,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <local:PetCard />
-                </DataTemplate>
+                </DataTemplate> 
             </ListView.ItemTemplate>
         </ListView>
     </Grid>
