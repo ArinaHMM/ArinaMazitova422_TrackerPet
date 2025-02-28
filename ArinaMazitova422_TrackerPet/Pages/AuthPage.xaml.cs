@@ -1,5 +1,4 @@
-﻿using ArinaMazitova422_TrackerPet.Pages;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,17 +13,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ArinaMazitova422_TrackerPet
+namespace ArinaMazitova422_TrackerPet.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для AuthPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AuthPage : Page
     {
-        public MainWindow()
+        public AuthPage()
         {
             InitializeComponent();
-            MainFrame.Navigate(new PetsViewPage());
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("dfs");
         }
     }
 }

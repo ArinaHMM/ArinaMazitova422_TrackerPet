@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using ArinaMazitova422_TrackerPet.Databases;
 
 namespace ArinaMazitova422_TrackerPet
 {
@@ -13,5 +14,7 @@ namespace ArinaMazitova422_TrackerPet
     /// </summary>
     public partial class App : Application
     {
+       public static TrackerPetEntities db = new TrackerPetEntities();
+
     }
 }
