@@ -10,43 +10,42 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="Auto"/>
+            <!-- Панель с кнопками -->
+            <RowDefinition Height="*"/>
+            <!-- Список с постами -->
         </Grid.RowDefinitions>
-        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
-            <TextBlock VerticalAlignment="Center" FontSize="20" Margin="40 0 0 0">Поиск</TextBlock>
-            <TextBox TextChanged="SearchTb_TextChanged" VerticalAlignment="Center" Name="SearchTb" Margin="10" Width="200"></TextBox>
-            <!--<TextBlock VerticalAlignment="Center" FontSize="20" Margin="40 0 0 0">Фильтр</TextBlock>-->
-            <ComboBox Margin="10" Width="200" VerticalContentAlignment="Center" Name="Filter" SelectionChanged="Filter_SelectionChanged" VerticalAlignment="Center">
+        <!-- Верхняя панель с поиском, фильтром и кнопками -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10">
+            <TextBlock VerticalAlignment="Center" FontSize="18" Margin="10 0">Поиск:</TextBlock>
+            <TextBox TextChanged="SearchTb_TextChanged" Name="SearchTb" Width="200" Margin="5"/>
+
+            <TextBlock VerticalAlignment="Center" FontSize="18" Margin="10 0">Фильтр:</TextBlock>
+            <ComboBox Name="Filter" SelectionChanged="Filter_SelectionChanged" Width="150" Margin="5">
                 <ComboBoxItem>Все</ComboBoxItem>
                 <ComboBoxItem>Сытый</ComboBoxItem>
                 <ComboBoxItem>Голодный</ComboBoxItem>
                 <ComboBoxItem>Довольный</ComboBoxItem>
                 <ComboBoxItem>Чистый</ComboBoxItem>
                 <ComboBoxItem>Грязный</ComboBoxItem>
-
             </ComboBox>
-                <Button Content="Добавить пост" Name="Add" Click="AddPostBtn_Click" Width="150" Height="40" Margin="5"/>
-                <Button Content="Редактировать" Name="edit" Click="EditPostBtn_Click" Width="150" Height="40" Margin="5"/>
-                <Button Content="Удалить" Name="Del" Click="DeletePostBtn_Click" Width="150" Height="40" Margin="5"/>
-            <Button Content="На выход" Name="exit" Click="exit_Click" Width="70" Height="40" Margin="5"/>
 
-
+            <Button Content="Добавить пост" Click="AddPostBtn_Click" Width="150" Margin="5"/>
+            <Button Content="Редактировать" Click="EditPostBtn_Click" Width="150" Margin="5"/>
+            <Button Content="Удалить" Click="DeletePostBtn_Click" Width="150" Margin="5"/>
+            <Button Content="На выход" Click="exit_Click" Width="100" Margin="5"/>
         </StackPanel>
-        <StackPanel Grid.Row="1">
-            <ScrollViewer>
-                <ListView Name="PetsListView" SelectionChanged="PetsListView_SelectionChanged">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <local:PetCard />
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
 
-
-            </ScrollViewer>
-        </StackPanel>
+        <!-- Контейнер списка с нормальной прокруткой -->
+        <ListView Name="PetsListView" SelectionChanged="PetsListView_SelectionChanged"
+                  Grid.Row="1" Margin="10" 
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <local:PetCard />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
-</Page>
+</Page>

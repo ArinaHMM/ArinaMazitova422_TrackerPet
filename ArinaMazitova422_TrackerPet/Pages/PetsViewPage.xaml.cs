@@ -11,9 +11,9 @@ namespace ArinaMazitova422_TrackerPet.Pages
     public partial class PetsViewPage : Page
     {
         private ObservableCollection<Posts> _posts = new ObservableCollection<Posts>();
-        private User _currentUser; // Текущий пользователь
+        private User _currentUser;
 
-        public PetsViewPage(User user) // Добавляем конструктор с пользователем
+        public PetsViewPage(User user) 
         {
             InitializeComponent();
             _currentUser = user;
@@ -24,11 +24,11 @@ namespace ArinaMazitova422_TrackerPet.Pages
         {
             try
             {
-                if (_currentUser.IdRole == 1) // Хозяин (Котенок Ра)
+                if (_currentUser.IdRole == 1) 
                 {
                     _posts = new ObservableCollection<Posts>(App.db.Posts.Where(p => p.idPet == 1).ToList());
                 }
-                else if (_currentUser.IdRole == 2) // Хозяйка (Собачка Нуби)
+                else if (_currentUser.IdRole == 2) 
                 {
                     _posts = new ObservableCollection<Posts>(App.db.Posts.Where(p => p.idPet == 2).ToList());
                 }
@@ -37,7 +37,7 @@ namespace ArinaMazitova422_TrackerPet.Pages
                     _posts = new ObservableCollection<Posts>();
                 }
 
-                PetsListView.ItemsSource = _posts; // Привязываем список к ListView
+                PetsListView.ItemsSource = _posts; 
             }
             catch (Exception ex)
             {
@@ -54,7 +54,7 @@ namespace ArinaMazitova422_TrackerPet.Pages
                 .Where(p => p.Description.ToLower().Contains(searchText))
                 .ToList();
 
-            PetsListView.ItemsSource = filteredPosts; // Обновляем список в ListView
+            PetsListView.ItemsSource = filteredPosts; 
         }
 
         private void Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -78,7 +78,7 @@ namespace ArinaMazitova422_TrackerPet.Pages
                     }
                     else
                     {
-                        PetsListView.ItemsSource = new List<Posts>(); // Если нет совпадений
+                        PetsListView.ItemsSource = new List<Posts>(); 
                     }
                 }
             }
@@ -92,14 +92,14 @@ namespace ArinaMazitova422_TrackerPet.Pages
 
         private void AddPostBtn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new AddPostPage(_currentUser)); // Переход на страницу добавления поста
+            NavigationService.Navigate(new AddPostPage(_currentUser)); 
         }
 
         private void EditPostBtn_Click(object sender, RoutedEventArgs e)
         {
             if (PetsListView.SelectedItem is Posts selectedPost)
             {
-                NavigationService.Navigate(new AddPostPage(_currentUser, selectedPost)); // Переход с передачей поста
+                NavigationService.Navigate(new AddPostPage(_currentUser, selectedPost)); 
             }
             else
             {
@@ -119,8 +119,8 @@ namespace ArinaMazitova422_TrackerPet.Pages
                     App.db.Posts.Remove(selectedPost);
                     App.db.SaveChanges();
 
-                    _posts.Remove(selectedPost); // Удаляем из списка
-                    PetsListView.Items.Refresh(); // Обновляем отображение
+                    _posts.Remove(selectedPost); 
+                    PetsListView.Items.Refresh(); 
                 }
             }
             else

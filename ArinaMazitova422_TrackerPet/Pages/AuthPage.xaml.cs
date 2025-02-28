@@ -40,7 +40,7 @@ namespace ArinaMazitova422_TrackerPet.Pages
                 }
                 else
                 {
-                    MessageBox.Show("Неверное имя или пароль!");
+                    MessageBox.Show("Неверное имя!");
                 }
             }
         }
