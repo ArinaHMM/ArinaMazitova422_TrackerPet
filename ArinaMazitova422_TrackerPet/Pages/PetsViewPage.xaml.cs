@@ -134,5 +134,10 @@ namespace ArinaMazitova422_TrackerPet.Pages
             PetsListView.ItemsSource = _posts;
             LoadPosts();
         }
+
+        private void exit_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new AuthPage());
+        }
     }
 }

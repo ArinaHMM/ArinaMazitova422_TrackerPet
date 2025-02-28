@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ArinaMazitova422_TrackerPet.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="1050" Loaded="Page_Loaded"
+      d:DesignHeight="450" d:DesignWidth="1150" Loaded="Page_Loaded"
       Title="PetsViewPage">
 
     <Grid>
@@ -31,8 +31,10 @@
                 <Button Content="Добавить пост" Name="Add" Click="AddPostBtn_Click" Width="150" Height="40" Margin="5"/>
                 <Button Content="Редактировать" Name="edit" Click="EditPostBtn_Click" Width="150" Height="40" Margin="5"/>
                 <Button Content="Удалить" Name="Del" Click="DeletePostBtn_Click" Width="150" Height="40" Margin="5"/>
-            
-                   </StackPanel>
+            <Button Content="На выход" Name="exit" Click="exit_Click" Width="70" Height="40" Margin="5"/>
+
+
+        </StackPanel>
         <StackPanel Grid.Row="1">
             <ScrollViewer>
                 <ListView Name="PetsListView" SelectionChanged="PetsListView_SelectionChanged">
