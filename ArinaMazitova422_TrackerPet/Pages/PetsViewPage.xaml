@@ -11,12 +11,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Панель с кнопками -->
             <RowDefinition Height="*"/>
-            <!-- Список с постами -->
         </Grid.RowDefinitions>
 
-        <!-- Верхняя панель с поиском, фильтром и кнопками -->
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10">
             <TextBlock VerticalAlignment="Center" FontSize="18" Margin="10 0">Поиск:</TextBlock>
             <TextBox TextChanged="SearchTb_TextChanged" Name="SearchTb" Width="200" Margin="5"/>
@@ -37,7 +34,6 @@
             <Button Content="На выход" Click="exit_Click" Width="100" Margin="5"/>
         </StackPanel>
 
-        <!-- Контейнер списка с нормальной прокруткой -->
         <ListView Name="PetsListView" SelectionChanged="PetsListView_SelectionChanged"
                   Grid.Row="1" Margin="10" 
                   ScrollViewer.VerticalScrollBarVisibility="Auto">

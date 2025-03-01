@@ -14,28 +14,22 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Блок изображения -->
             <Border Grid.Column="0" Width="150" Height="150" CornerRadius="10"
                     BorderBrush="#CCCCCC" BorderThickness="1" Background="LightGray">
                 <Image x:Name="ImagePet" Width="150" Height="150"
                        Source="{Binding Image}" Stretch="UniformToFill" />
             </Border>
 
-            <!-- Информация -->
             <StackPanel Grid.Column="1" Margin="15,0,0,0">
-                <!-- Имя питомца -->
                 <TextBlock Text="{Binding Pet.Name}" FontWeight="Bold" FontSize="18"
                            Foreground="#333333"/>
 
-                <!-- Описание поста -->
                 <TextBlock Text="{Binding Description}" TextWrapping="Wrap"
                            FontSize="14" Foreground="#666666" Margin="0,5,0,0"/>
 
-                <!-- Характеристика (PostRate) -->
                 <TextBlock Text="{Binding PostRate.Name}" FontSize="14" Foreground="#0066CC" 
                            FontWeight="Bold" Margin="0,5,0,0"/>
 
-                <!-- Дата -->
                 <Border Margin="0,10,0,0" Padding="5" CornerRadius="5"
                         Background="#EEEEEE">
                     <TextBlock Text="{Binding DateNTime, StringFormat='📅 {0:dd MMMM yyyy, HH:mm}'}"

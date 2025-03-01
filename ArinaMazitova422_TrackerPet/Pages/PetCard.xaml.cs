@@ -9,8 +9,8 @@ namespace ArinaMazitova422_TrackerPet.Pages
 {
     public partial class PetCard : UserControl
     {
-        public string PetName { get; set; }  // Добавляем свойство для имени питомца
-        public string Rate { get; set; }     // Добавляем свойство для характеристики
+        public string PetName { get; set; }  
+        public string Rate { get; set; }    
 
         public Posts Posts { get; }
 
@@ -24,16 +24,14 @@ namespace ArinaMazitova422_TrackerPet.Pages
             Posts = post;
             LoadData();
             LoadImage();
-            DataContext = this; // Устанавливаем привязку
+            DataContext = this; 
         }
 
         private void LoadData()
         {
-            // Получаем имя питомца
             var pet = App.db.Pet.FirstOrDefault(p => p.id == Posts.idPet);
             PetName = pet?.Name ?? "Неизвестный питомец";
 
-            // Получаем характеристику (PostRate)
             var postRate = App.db.PostRate.FirstOrDefault(r => r.id == Posts.idRate);
             Rate = postRate?.Name ?? "Без характеристики";
         }

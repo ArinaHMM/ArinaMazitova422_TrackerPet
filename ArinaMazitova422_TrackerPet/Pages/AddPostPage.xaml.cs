@@ -33,30 +33,29 @@ namespace ArinaMazitova422_TrackerPet.Pages
 
         private void LoadPetOptions()
         {
-            if (_currentUser.IdRole == 1) // Хозяин (только Ра)
+            if (_currentUser.IdRole == 1) 
             {
                 PetComboBox.Items.Add(new { Id = 1, Name = "Ра" });
             }
-            else if (_currentUser.IdRole == 2) // Хозяйка (только Нуби)
+            else if (_currentUser.IdRole == 2) 
             {
                 PetComboBox.Items.Add(new { Id = 2, Name = "Нуби" });
             }
             PetComboBox.DisplayMemberPath = "Name";
-            PetComboBox.SelectedIndex = 0; // Автовыбор первого элемента
+            PetComboBox.SelectedIndex = 0; 
         }
 
         private void LoadPostRates()
         {
             List<string> rates = new List<string> { "Сытый", "Голодный", "Довольный", "Недовольный", "Чистый", "Грязный" };
             PostRateComboBox.ItemsSource = rates;
-            PostRateComboBox.SelectedIndex = 0; // Выбор первого состояния по умолчанию
+            PostRateComboBox.SelectedIndex = 0; 
         }
 
         private void LoadPostData()
         {
             DescriptionTextBox.Text = _editingPost.Description;
 
-            // Загружаем картинку
             if (_editingPost.Image != null && _editingPost.Image.Length > 0)
             {
                 using (var ms = new MemoryStream(_editingPost.Image))
@@ -70,14 +69,12 @@ namespace ArinaMazitova422_TrackerPet.Pages
                 }
             }
 
-            // Устанавливаем питомца
             var pet = PetComboBox.Items.Cast<dynamic>().FirstOrDefault(p => p.Id == _editingPost.idPet);
             if (pet != null)
             {
                 PetComboBox.SelectedItem = pet;
             }
 
-            // Устанавливаем характеристику
             var postRate = App.db.PostRate.FirstOrDefault(r => r.id == _editingPost.idRate);
             if (postRate != null)
             {
@@ -85,7 +82,6 @@ namespace ArinaMazitova422_TrackerPet.Pages
             }
         }
 
-        // Выбор фото
         private void SelectPhoto_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -106,7 +102,6 @@ namespace ArinaMazitova422_TrackerPet.Pages
             }
         }
 
-        // Сохранение поста
         private void SavePost_Click(object sender, RoutedEventArgs e)
         {
             if (PetComboBox.SelectedItem == null || PostRateComboBox.SelectedItem == null || string.IsNullOrWhiteSpace(DescriptionTextBox.Text))
@@ -126,7 +121,6 @@ namespace ArinaMazitova422_TrackerPet.Pages
 
                 if (postRateEntry == null)
                 {
-                    // Если характеристики нет в базе, добавляем её
                     postRateEntry = new PostRate { Name = postRate };
                     App.db.PostRate.Add(postRateEntry);
                     App.db.SaveChanges();
@@ -134,7 +128,6 @@ namespace ArinaMazitova422_TrackerPet.Pages
 
                 if (_editingPost == null)
                 {
-                    // Создание нового поста
                     var newPost = new Posts
                     {
                         idPet = petId,
@@ -148,13 +141,12 @@ namespace ArinaMazitova422_TrackerPet.Pages
                 }
                 else
                 {
-                    // Редактирование существующего поста
                     _editingPost.idPet = petId;
                     _editingPost.idRate = postRateEntry.id;
                     _editingPost.Description = description;
                     _editingPost.DateNTime = DateTime.Now;
 
-                    if (_selectedImageBytes != null) // Обновляем изображение, если выбрано новое
+                    if (_selectedImageBytes != null) 
                     {
                         _editingPost.Image = _selectedImageBytes;
                     }
